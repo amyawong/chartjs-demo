@@ -1,23 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import BarGraph from "./components/BarGraph";
+import LineGraph from "./components/LineGraph";
+import PieChart from "./components/PieChart";
+import { UserData } from "./data";
 
 function App() {
+  const [userData, setUserData] = useState({
+    labels: UserData.map((data) => data.year), // a list of all the labels that represent each bar (i.e. years), line in a line chart, etc
+    datasets: [
+      {
+        label: "Users Gained", // what this data represents, can easily change to another category (i.e. Users Lost)
+        data: UserData.map((data) => data.userGain), // can change this to data.userLost
+        backgroundColor: ["rgba(75,192,192,1)", "#ecf0f1", "#50AF95", "#f3ba2f", "#2a71d0"], // set color pattern of bars
+        borderColor: "black", // additional attributes
+        borderWidth: "2",
+      },
+    ],
+  });
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div style={{ width: "700px" }}>
+        <BarGraph chartData={userData} />
+      </div>
+      <br /><br /><br />
+      <div style={{ width: "700px" }}>
+        <LineGraph chartData={userData} />
+      </div>
+      <br /><br /><br />
+      <div style={{ width: "700px" }}>
+        <PieChart chartData={userData} />
+      </div>
     </div>
   );
 }
